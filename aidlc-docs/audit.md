@@ -181,3 +181,131 @@
 **Context**: Inception Phase verification complete, awaiting user approval to proceed
 
 ---
+
+## Inception Phase - User Approval → Construction Phase
+**Timestamp**: 2026-03-21T02:00:00Z
+**User Input**: "Approve & Continue → Bắt đầu Construction Phase (Unit 1: Functional Design)"
+**AI Response**: Ghi nhận phê duyệt Inception Phase. Cập nhật aidlc-state.md. Bắt đầu Construction Phase — Unit 1: Core Foundation — Functional Design.
+**Context**: Inception Phase complete → Construction Phase started
+
+---
+
+## Construction Phase - Unit 1 Functional Design - Start
+**Timestamp**: 2026-03-21T02:01:00Z
+**User Input**: N/A (auto-proceed)
+**AI Response**: Load rule details từ .kiro/aws-aidlc-rule-details/construction/functional-design.md. Đọc Unit 1 context từ unit-of-work.md và unit-of-work-story-map.md. Tạo Functional Design Plan với questions. Chờ user trả lời.
+**Context**: Construction Phase - Unit 1 Functional Design - Planning
+
+---
+
+## Construction Phase - Unit 1 Functional Design - Answers Received
+**Timestamp**: 2026-03-21T02:10:00Z
+**User Input**: "Xong"
+**AI Response**: Đọc 15 câu trả lời. Không phát hiện ambiguity. Bắt đầu generate 4 functional design artifacts cho Unit 1.
+**Context**: Construction Phase - Unit 1 Functional Design - Proceeding to generation
+
+**Tóm tắt câu trả lời**:
+- Q-A1: B — Single User table + HostProfile extension (1-1 optional)
+- Q-A2: A — Ảnh lưu theo index 0-5, user có thể reorder
+- Q-A3: A — Admin manually approve verified badge
+- Q-B1: B — Email+password → OTP → Account active
+- Q-B2: D — Kiểm tra email LINE trùng → Merge nếu trùng, tạo mới nếu không
+- Q-B3: C — Phone verification optional hoàn toàn, chỉ hiển thị badge
+- Q-B4: B — 5 lần sai → CAPTCHA → 10 lần sai → Lock 24h
+- Q-B5: A — Link reset email (1h) → Nhập password mới → Invalidate all refresh tokens
+- Q-C1: B — DisplayName + DateOfBirth bắt buộc
+- Q-C2: A — Self-declare DateOfBirth (trust user)
+- Q-C3: A — DisplayName unique, không có format restriction
+- Q-D1: C — Stripe Mock skeleton: Payment Intent success + basic webhook
+- Q-D2: C — LINE Pay Mock skeleton: Request + Confirm success path
+- Q-E1: D — Onboarding flow cho user mới, Home cho user cũ
+- Q-E2: B — httpOnly Cookie cho cả access + refresh token
+- Q-E3: C — Login + Register + "Connect LINE" trong Profile settings
+
+---
+
+## Construction Phase - Unit 1 Functional Design - User Approval
+**Timestamp**: 2026-03-21T02:20:00Z
+**User Input**: "Continue to Next Stage — Phê duyệt và tiến sang NFR Requirements. Approved"
+**AI Response**: Ghi nhận phê duyệt Functional Design Unit 1. Cập nhật aidlc-state.md. Bắt đầu NFR Requirements cho Unit 1.
+**Context**: Unit 1 Functional Design complete → NFR Requirements started
+
+---
+
+## Construction Phase - Unit 1 NFR Requirements - Start
+**Timestamp**: 2026-03-21T02:21:00Z
+**User Input**: N/A (auto-proceed)
+**AI Response**: Load rule details từ .kiro/aws-aidlc-rule-details/construction/nfr-requirements.md. Phân tích functional design artifacts. Tạo NFR Requirements Plan với questions. Chờ user trả lời.
+**Context**: Construction Phase - Unit 1 NFR Requirements - Planning
+
+---
+
+## Construction Phase - Unit 1 NFR Requirements - Answers Received
+**Timestamp**: 2026-03-21T02:35:00Z
+**User Input**: "Tôi đã trả lời toàn bộ câu hỏi về NFR, hãy thực hiện tiếp"
+**AI Response**: Đọc 12 câu trả lời. Không phát hiện ambiguity. Bắt đầu generate 2 NFR artifacts cho Unit 1.
+**Context**: Construction Phase - Unit 1 NFR Requirements - Proceeding to generation
+
+**Tóm tắt câu trả lời**:
+- Q-A1: D — Mặc định Npgsql connection pool
+- Q-A2: B+D — Cache blacklisted tokens + Cache user profile (TTL 15 phút, configurable)
+- Q-A3: C — Presigned URL + server verify sau upload
+- Q-B1: B — LoginAttempts retention 90 ngày
+- Q-B2: D — Soft delete 30 ngày → Anonymize
+- Q-B3: A+D — Per-IP + Global (note: nâng cấp Per-User cho protected endpoints sau)
+- Q-B4: A — AdminActionLog DB table
+- Q-C1: A — Retry 3 lần exponential backoff → trả lỗi
+- Q-C2: C — live + ready + startup health checks
+- Q-D1: D — EF Core Code-First + auto-apply startup
+- Q-D2: A variant — Serilog → CloudWatch (prod) + File+Console (dev/test)
+- Q-D3: A — URL path versioning /api/v1/
+
+---
+
+## Construction Phase - Unit 1 NFR Requirements - User Approval
+**Timestamp**: 2026-03-21T02:50:00Z
+**User Input**: "Continue to Next Stage — Phê duyệt và tiến sang NFR Design"
+**AI Response**: Ghi nhận phê duyệt NFR Requirements Unit 1. Bắt đầu NFR Design cho Unit 1.
+**Context**: Unit 1 NFR Requirements complete → NFR Design started
+
+---
+
+## Construction Phase - Unit 1 NFR Design - Start
+**Timestamp**: 2026-03-21T02:51:00Z
+**User Input**: N/A (auto-proceed)
+**AI Response**: Load rule details từ .kiro/aws-aidlc-rule-details/construction/nfr-design.md. Phân tích NFR requirements artifacts. Đánh giá questions cần thiết — Unit 1 là foundation layer, hầu hết patterns đã rõ từ NFR requirements. Tạo plan với minimal questions.
+**Context**: Construction Phase - Unit 1 NFR Design - Planning
+
+---
+
+## Construction Phase - Unit 1 NFR Design - Answers Received
+**Timestamp**: 2026-03-21T02:55:00Z
+**User Input**: "Trả lời xong 2 câu hỏi"
+**AI Response**: Q1=B (invalidate cache khi update + admin lock/ban + host verification change), Q2=A (tạo OTP mới mỗi lần, invalidate cũ). Bắt đầu generate NFR design artifacts.
+**Context**: Construction Phase - Unit 1 NFR Design - Proceeding to generation
+
+---
+
+## Construction Phase - Unit 1 NFR Design - User Approval
+**Timestamp**: 2026-03-21T03:00:00Z
+**User Input**: "Continue to Next Stage"
+**AI Response**: Ghi nhận phê duyệt NFR Design Unit 1. Bắt đầu Infrastructure Design cho Unit 1.
+**Context**: Unit 1 NFR Design complete → Infrastructure Design started
+
+---
+
+## Construction Phase - Unit 1 Infrastructure Design - Start
+**Timestamp**: 2026-03-21T03:01:00Z
+**User Input**: N/A (auto-proceed)
+**AI Response**: Load rule details. Phân tích design artifacts. Infrastructure đã được xác định rõ từ NFR design (AWS stack, Docker Compose, LocalStack). Chỉ cần hỏi các điểm chưa rõ về networking và môi trường deployment.
+**Context**: Construction Phase - Unit 1 Infrastructure Design - Planning
+
+---
+
+## Construction Phase - Unit 1 Infrastructure Design - Answers Received
+**Timestamp**: 2026-03-21T03:10:00Z
+**User Input**: "Đã trả lời 3 câu hỏi"
+**AI Response**: Q1=C (1vCPU/2GB), Q2=B (db.t3.small), Q3=A (Simple VPC). Bắt đầu generate infrastructure design artifacts.
+**Context**: Construction Phase - Unit 1 Infrastructure Design - Proceeding to generation
+
+---

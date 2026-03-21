@@ -51,6 +51,33 @@ Service    Service
 
 ---
 
+## SVC-02b: RoomChatService
+
+**Module**: RoomChat  
+**Mục đích**: Xử lý chat trong phòng livestream qua Redis Streams
+
+| Method | Orchestration |
+|---|---|
+| `SendMessageAsync` | `IChatMessageFilter` (blacklist) → `LivestreamModule.RoomExistsAsync` → `RedisStreamService.XAddAsync` → `ChatHub.RoomMessageReceived` |
+| `GetRecentMessagesAsync` | `RedisStreamService.XRevRangeAsync` (last N entries) |
+| `ExportToArchiveAsync` | `RedisStreamService.XRangeAsync` → `S3Service.UploadAsync` — gọi bởi Hangfire |
+
+---
+
+## SVC-02c: DirectChatService
+
+**Module**: DirectChat  
+**Mục đích**: Xử lý chat 1-1 persistent qua PostgreSQL partitioned
+
+| Method | Orchestration |
+|---|---|
+| `SendMessageAsync` | `IChatMessageFilter` (blacklist) → `ProfilesModule.IsBlockedAsync` → `DirectMessageRepository.InsertAsync` (partition) → `ChatHub.DirectMessageReceived` → `DomainEvent(DirectMessageSent)` |
+| `GetMessagesAsync` | `DirectMessageRepository.QueryPartitionAsync` (tự chọn partition theo date range) |
+| `MarkAsReadAsync` | `ConversationRepository.UpdateReadStatusAsync` |
+| `DeleteMessageAsync` | `DirectMessageRepository.SoftDeleteAsync` |
+
+---
+
 ## SVC-03: LivestreamOrchestrationService
 
 **Module**: Livestream  
@@ -105,7 +132,7 @@ Service    Service
 | `StreamStarted` | Lấy danh sách followers → FCM push notification (batch) |
 | `UserFollowed` | Push notification cho host |
 | `PrivateCallRequest` | Push notification + SignalR `NotificationHub` (in-app) |
-| `MessageReceived` | Push notification (nếu app đóng) hoặc SignalR (nếu app mở) |
+| `DirectMessageSent` | Push notification (nếu app đóng) hoặc SignalR (nếu app mở) |
 | `CoinsAdded` | SignalR `NotificationHub` → `CoinBalanceUpdated` |
 | `RankChanged` | SignalR `NotificationHub` → `LeaderboardRankChanged` |
 
@@ -149,10 +176,10 @@ Service    Service
 | `StreamStarted` | LivestreamService | NotificationService (notify followers) |
 | `StreamEnded` | LivestreamService | LeaderboardService (finalize scores) |
 | `GiftSent` | PaymentService | LeaderboardService (record), LivestreamHub (animation) |
+| `DirectMessageSent` | DirectChatService | NotificationService (push nếu recipient offline) |
 | `CoinsAdded` | PaymentService | NotificationService (balance update) |
 | `UserFollowed` | ProfileService | NotificationService (notify host) |
 | `ViolationDetected` | ModerationService | LivestreamService (if HIGH), NotificationService |
-| `RankChanged` | LeaderboardService | NotificationService (notify host) |
 
 ---
 
@@ -167,3 +194,5 @@ Service    Service
 | `CleanupExpiredTokens` | Mỗi giờ | AuthService |
 | `RetryFailedWebhooks` | Mỗi 5 phút | PaymentService |
 | `AnalyzeVideoFrames` | Mỗi 30 giây (per active stream) | ModerationService |
+| `ExportRoomChatToS3` | Mỗi ngày 02:00 JST | RoomChatService — export room chat từ Redis Streams sang S3 (analytics archive) |
+| `DropExpiredDirectChatPartitions` | Ngày 1 hàng tháng 03:00 JST | DirectChatService — drop PostgreSQL partitions direct_messages cũ hơn 12 tháng |

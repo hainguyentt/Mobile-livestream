@@ -26,7 +26,8 @@ LivestreamApp.sln
 │   ├── LivestreamApp.Auth           # Module: Authentication
 │   ├── LivestreamApp.Profiles       # Module: Profiles & Matching
 │   ├── LivestreamApp.Livestream     # Module: Livestream Public + Private
-│   ├── LivestreamApp.Chat           # Module: Chat
+│   ├── LivestreamApp.RoomChat       # Module: Room chat (Redis Streams)
+│   ├── LivestreamApp.DirectChat     # Module: Direct chat 1-1 (PostgreSQL partitioned)
 │   ├── LivestreamApp.Payment        # Module: Coin, Stripe, LINE Pay, Gifts
 │   ├── LivestreamApp.Notification   # Module: Push + In-app notifications
 │   ├── LivestreamApp.Leaderboard    # Module: Ranking
@@ -50,17 +51,18 @@ Chi tiết: [`components.md`](./components.md)
 
 | ID | Component | Loại | Trách nhiệm chính |
 |---|---|---|---|
-| MOD-01 | LivestreamApp.API | Entry Point | Host, middleware, DI, SignalR mount |
+| MOD-01 | LivestreamApp.API | Entry Point | Host, middleware, DI, SignalR mount (incl. ChatHub) |
 | MOD-02 | LivestreamApp.Auth | Domain Module | Auth, JWT, LINE OAuth, OTP |
 | MOD-03 | LivestreamApp.Profiles | Domain Module | Profile, matching, follow, block |
 | MOD-04 | LivestreamApp.Livestream | Domain Module | Public stream, private call, Agora, billing |
-| MOD-05 | LivestreamApp.Chat | Domain Module | Room chat, private chat, SignalR |
-| MOD-06 | LivestreamApp.Payment | Domain Module | Coin, Stripe, LINE Pay, gifts, withdrawal |
-| MOD-07 | LivestreamApp.Notification | Domain Module | FCM push, in-app via SignalR |
-| MOD-08 | LivestreamApp.Leaderboard | Domain Module | Ranking, badges, Redis cache |
-| MOD-09 | LivestreamApp.Moderation | Domain Module | Reports, AI analysis, actions |
-| MOD-10 | LivestreamApp.Admin | Domain Module | Admin API cho dashboard |
-| MOD-11 | LivestreamApp.Shared | Shared Kernel | Primitives, interfaces, domain events |
+| MOD-05 | LivestreamApp.RoomChat | Domain Module | Room chat (Redis Streams, TTL 7 ngày), S3 archive |
+| MOD-06 | LivestreamApp.DirectChat | Domain Module | Direct chat 1-1 (PostgreSQL partitioned, 12 tháng) |
+| MOD-07 | LivestreamApp.Payment | Domain Module | Coin, Stripe, LINE Pay, gifts, withdrawal |
+| MOD-08 | LivestreamApp.Notification | Domain Module | FCM push, in-app via SignalR |
+| MOD-09 | LivestreamApp.Leaderboard | Domain Module | Ranking, badges, Redis cache |
+| MOD-10 | LivestreamApp.Moderation | Domain Module | Reports, AI analysis, actions |
+| MOD-11 | LivestreamApp.Admin | Domain Module | Admin API cho dashboard |
+| MOD-12 | LivestreamApp.Shared | Shared Kernel | Primitives, interfaces, domain events, IChatMessageFilter |
 | FE-01 | PWA | Frontend | Viewer + Host UI, PWA |
 | FE-02 | Admin Dashboard | Frontend | Admin/Moderator UI |
 | MOCK-01 | MockServices | Dev Tool | Stripe Mock + LINE Pay Mock |
@@ -103,7 +105,7 @@ Chi tiết: [`component-dependency.md`](./component-dependency.md)
 
 **Dependency rule**: Modules chỉ phụ thuộc vào `Shared`. Giao tiếp cross-module qua Domain Events hoặc direct call (trong cùng process). Không có circular dependencies.
 
-**External services**: PostgreSQL, Redis, S3, SES, SNS, SQS, Rekognition (LocalStack khi dev), Agora.io (Free Tier), Stripe (Mock + Test Mode), LINE Pay (Mock), FCM.
+**External services**: PostgreSQL, Redis (bao gồm Redis Streams cho room chat), S3, SES, SNS, SQS, Rekognition (LocalStack khi dev), Agora.io (Free Tier), Stripe (Mock + Test Mode), LINE Pay (Mock), FCM.
 
 ---
 

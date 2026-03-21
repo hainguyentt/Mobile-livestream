@@ -84,20 +84,39 @@ public interface IPrivateCallService
 
 ---
 
-## MOD-05: ChatModule
+## MOD-05: RoomChatModule
+
+> **Storage**: Redis Streams (`room:{roomId}:chat`, TTL 7 ngày) — không persist PostgreSQL.  
+> **Scope**: Chỉ xử lý chat trong phòng livestream. Phụ thuộc `Livestream` module để validate roomId.
 
 ```csharp
 public interface IRoomChatService
 {
-    Task<ChatMessage> SendRoomMessageAsync(Guid senderId, Guid roomId, string content);
-    Task<PagedResult<ChatMessage>> GetRoomMessagesAsync(Guid roomId, PagingRequest paging);
+    // Gửi tin nhắn — ghi vào Redis Stream + broadcast qua ChatHub
+    Task<RoomChatMessage> SendMessageAsync(Guid senderId, Guid roomId, string content);
+    // Đọc recent messages khi viewer join phòng (từ Redis Stream)
+    Task<IEnumerable<RoomChatMessage>> GetRecentMessagesAsync(Guid roomId, int count = 50);
+    // Batch export sang S3 — gọi bởi Hangfire job hàng ngày
+    Task ExportToArchiveAsync(Guid roomId, DateTime date);
 }
+```
 
-public interface IPrivateChatService
+---
+
+## MOD-06: DirectChatModule
+
+> **Storage**: PostgreSQL partitioned by month, retention 12 tháng.  
+> **Scope**: Chat 1-1 persistent giữa users. Tích hợp block list từ Profiles module.
+
+```csharp
+public interface IDirectChatService
 {
-    Task<ChatMessage> SendPrivateMessageAsync(Guid senderId, Guid recipientId, string content);
+    // Gửi tin nhắn — ghi PostgreSQL + broadcast qua ChatHub
+    Task<DirectMessage> SendMessageAsync(Guid senderId, Guid recipientId, string content);
+    // Danh sách conversations của user
     Task<PagedResult<Conversation>> GetConversationsAsync(Guid userId, PagingRequest paging);
-    Task<PagedResult<ChatMessage>> GetMessagesAsync(Guid userId, Guid conversationId, PagingRequest paging);
+    // Lịch sử tin nhắn trong 1 conversation (query đúng partition theo tháng)
+    Task<PagedResult<DirectMessage>> GetMessagesAsync(Guid userId, Guid conversationId, PagingRequest paging);
     Task MarkAsReadAsync(Guid userId, Guid conversationId);
     Task DeleteMessageAsync(Guid userId, Guid messageId);
 }
@@ -105,7 +124,7 @@ public interface IPrivateChatService
 
 ---
 
-## MOD-06: PaymentModule
+## MOD-07: PaymentModule
 
 ```csharp
 public interface ICoinService
@@ -147,7 +166,7 @@ public interface IWithdrawalService  // Could Have
 
 ---
 
-## MOD-07: NotificationModule
+## MOD-08: NotificationModule
 
 ```csharp
 public interface INotificationService
@@ -163,7 +182,7 @@ public interface INotificationService
 
 ---
 
-## MOD-08: LeaderboardModule
+## MOD-09: LeaderboardModule
 
 ```csharp
 public interface ILeaderboardService
@@ -179,7 +198,7 @@ public interface ILeaderboardService
 
 ---
 
-## MOD-09: ModerationModule
+## MOD-10: ModerationModule
 
 ```csharp
 public interface IModerationService
@@ -199,7 +218,7 @@ public interface IContentAnalysisService
 
 ---
 
-## MOD-10: AdminModule
+## MOD-11: AdminModule
 
 ```csharp
 public interface IAdminUserService
@@ -254,12 +273,13 @@ public interface ILivestreamHubClient
     Task CoinWarning(CoinWarningEvent evt);       // coin sắp hết
 }
 
-// ChatHub — /hubs/chat
+// ChatHub — /hubs/chat  (dùng chung cho RoomChat và DirectChat)
+// Đặt trong LivestreamApp.API layer — không thuộc riêng module nào
 public interface IChatHubClient
 {
-    Task RoomMessageReceived(RoomChatMessage message);
-    Task PrivateMessageReceived(PrivateChatMessage message);
-    Task MessageRead(MessageReadEvent evt);
+    Task RoomMessageReceived(RoomChatMessage message);    // từ MOD-05 RoomChat
+    Task DirectMessageReceived(DirectMessage message);   // từ MOD-06 DirectChat
+    Task MessageRead(MessageReadEvent evt);               // từ MOD-06 DirectChat
 }
 
 // NotificationHub — /hubs/notification

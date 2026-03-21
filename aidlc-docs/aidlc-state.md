@@ -27,7 +27,7 @@
 - [x] User Stories
 - [x] Workflow Planning
 - [x] Application Design — EXECUTE
-- [ ] Units Generation — EXECUTE
+- [x] Units Generation — EXECUTE
 
 ### 🟢 CONSTRUCTION PHASE
 - [ ] Functional Design — EXECUTE (per unit)

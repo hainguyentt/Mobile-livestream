@@ -14,7 +14,8 @@ LivestreamApp.sln
 │   ├── LivestreamApp.Auth/             # Module: Authentication & Identity
 │   ├── LivestreamApp.Profiles/         # Module: User Profiles & Matching
 │   ├── LivestreamApp.Livestream/       # Module: Livestream (Public + Private)
-│   ├── LivestreamApp.Chat/             # Module: Chat 1-1
+│   ├── LivestreamApp.RoomChat/         # Module: Room chat trong livestream (Redis Streams)
+│   ├── LivestreamApp.DirectChat/       # Module: Chat 1-1 giữa users (PostgreSQL partitioned)
 │   ├── LivestreamApp.Payment/          # Module: Coin, Stripe, LINE Pay
 │   ├── LivestreamApp.Notification/     # Module: Push Notifications
 │   ├── LivestreamApp.Leaderboard/      # Module: Ranking & Leaderboard
@@ -95,22 +96,39 @@ LivestreamApp.sln
 
 ---
 
-### MOD-05: LivestreamApp.Chat
+### MOD-05: LivestreamApp.RoomChat
 **Loại**: Domain Module  
 **Trách nhiệm**:
-- Chat text real-time trong phòng livestream (room chat)
-- Chat 1-1 private giữa users
-- Lưu trữ lịch sử tin nhắn
-- Trạng thái đã đọc / chưa đọc
-- Gửi emoji, sticker
-- Filter tin nhắn vi phạm (blacklist)
-- SignalR: `ChatHub` — room messages, private messages
+- Chat text real-time trong phòng livestream public (gắn với Room lifecycle)
+- Lưu trữ qua **Redis Streams** (`room:{roomId}:chat`, TTL 7 ngày) — không persist PostgreSQL
+- Broadcast tin nhắn qua SignalR `ChatHub` đến tất cả viewers trong phòng
+- Filter tin nhắn vi phạm (blacklist từ `Shared`)
+- Background job: batch export sang S3 hàng ngày (analytics archive)
+- Phụ thuộc `LivestreamApp.Livestream` để validate roomId còn active
 
-**Interfaces**: REST `/api/chat/*`, SignalR `ChatHub`
+**Interfaces**: REST `/api/roomchat/*`, SignalR `ChatHub` (dùng chung)
 
 ---
 
-### MOD-06: LivestreamApp.Payment
+### MOD-06: LivestreamApp.DirectChat
+**Loại**: Domain Module  
+**Trách nhiệm**:
+- Chat text 1-1 private giữa users đã match hoặc follow
+- Lưu trữ qua **PostgreSQL** với table partitioning theo tháng, retention 12 tháng
+- Broadcast tin nhắn qua SignalR `ChatHub` đến recipient (nếu online)
+- Quản lý Conversations (thread giữa 2 users)
+- Trạng thái đã đọc / chưa đọc
+- Gửi emoji, sticker
+- Xóa tin nhắn
+- Filter tin nhắn vi phạm (blacklist từ `Shared`)
+- Background job: drop partition cũ hơn 12 tháng
+- Tích hợp với block list từ `LivestreamApp.Profiles` (không nhận tin từ user đã block)
+
+**Interfaces**: REST `/api/directchat/*`, SignalR `ChatHub` (dùng chung)
+
+---
+
+### MOD-07: LivestreamApp.Payment
 **Loại**: Domain Module  
 **Trách nhiệm**:
 - Quản lý số dư coin của người dùng
@@ -128,7 +146,7 @@ LivestreamApp.sln
 
 ---
 
-### MOD-07: LivestreamApp.Notification
+### MOD-08: LivestreamApp.Notification
 **Loại**: Domain Module  
 **Trách nhiệm**:
 - Gửi push notification qua FCM (Firebase Cloud Messaging)
@@ -142,7 +160,7 @@ LivestreamApp.sln
 
 ---
 
-### MOD-08: LivestreamApp.Leaderboard
+### MOD-09: LivestreamApp.Leaderboard
 **Loại**: Domain Module  
 **Trách nhiệm**:
 - Tính toán và lưu trữ ranking host (daily/weekly/monthly)
@@ -156,7 +174,7 @@ LivestreamApp.sln
 
 ---
 
-### MOD-09: LivestreamApp.Moderation
+### MOD-10: LivestreamApp.Moderation
 **Loại**: Domain Module  
 **Trách nhiệm**:
 - Nhận và lưu báo cáo vi phạm từ users
@@ -170,7 +188,7 @@ LivestreamApp.sln
 
 ---
 
-### MOD-10: LivestreamApp.Admin
+### MOD-11: LivestreamApp.Admin
 **Loại**: Domain Module  
 **Trách nhiệm**:
 - Admin API cho Admin Dashboard (Next.js app riêng)
@@ -186,7 +204,7 @@ LivestreamApp.sln
 
 ---
 
-### MOD-11: LivestreamApp.Shared
+### MOD-12: LivestreamApp.Shared
 **Loại**: Shared Kernel  
 **Trách nhiệm**:
 - Domain primitives (UserId, CoinAmount, StreamId, v.v.)
@@ -195,6 +213,7 @@ LivestreamApp.sln
 - Common exceptions và error codes
 - Extension methods, utilities
 - APPI compliance helpers (data anonymization, consent tracking)
+- **`IChatMessageFilter`**: interface blacklist filter dùng chung cho cả RoomChat và DirectChat
 
 **Interfaces**: Không expose HTTP — chỉ dùng nội bộ
 

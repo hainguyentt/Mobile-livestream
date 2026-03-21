@@ -7,11 +7,12 @@
 
 | Module | Depends On | Communication |
 |---|---|---|
-| API | Auth, Profiles, Livestream, Chat, Payment, Notification, Leaderboard, Moderation, Admin | DI injection |
+| API | Auth, Profiles, Livestream, RoomChat, DirectChat, Payment, Notification, Leaderboard, Moderation, Admin | DI injection |
 | Auth | Shared | Direct call |
 | Profiles | Auth, Shared | Direct call + Domain Events |
 | Livestream | Auth, Profiles, Payment (Coin), Notification, Leaderboard, Shared | Direct call + Domain Events + SignalR |
-| Chat | Auth, Profiles, Shared | Direct call + SignalR |
+| RoomChat | Auth, Livestream, Shared | Direct call + Redis Streams + SignalR (ChatHub) |
+| DirectChat | Auth, Profiles (block list), Shared | Direct call + PostgreSQL partitioned + SignalR (ChatHub) |
 | Payment | Auth, Shared | Direct call + Domain Events |
 | Notification | Auth, Shared | Domain Events + SignalR + FCM |
 | Leaderboard | Auth, Payment, Shared | Domain Events + Redis |
@@ -78,9 +79,9 @@ LivestreamApp.{Module}/
 
 | External Service | Module(s) | Protocol | Mock Available |
 |---|---|---|---|
-| PostgreSQL (AWS RDS) | Tất cả modules | EF Core / TCP | Docker local |
-| Redis (AWS ElastiCache) | Leaderboard, Notification, Auth (token store) | StackExchange.Redis | Docker local |
-| AWS S3 | Profiles (ảnh), Moderation (frames) | AWS SDK | LocalStack |
+| PostgreSQL (AWS RDS) | Auth, Profiles, Livestream, Payment, Notification, Leaderboard, Moderation, Admin, **DirectChat (partitioned by month)** | EF Core / TCP | Docker local |
+| Redis (AWS ElastiCache) | Leaderboard, Notification, Auth (token store), **RoomChat (Redis Streams, TTL 7 ngày)** | StackExchange.Redis | Docker local |
+| AWS S3 | Profiles (ảnh), Moderation (frames), **RoomChat (archive export hàng ngày)** | AWS SDK | LocalStack |
 | AWS SES | Auth (email OTP, password reset) | AWS SDK | LocalStack |
 | AWS SNS | Notification (push fallback) | AWS SDK | LocalStack |
 | AWS SQS | Background jobs queue | AWS SDK | LocalStack |
@@ -91,6 +92,62 @@ LivestreamApp.{Module}/
 | LINE OAuth | Auth | OAuth 2.0 | LINE Dev account |
 | FCM (Firebase) | Notification | Firebase Admin SDK | Firebase test project |
 | Twilio / AWS SNS | Auth (SMS OTP) | HTTP / AWS SDK | LocalStack SNS |
+
+---
+
+## Data Flow: Room Chat — MOD-05 RoomChat (Redis Streams)
+
+```
+Viewer (PWA) — gửi tin nhắn trong phòng livestream
+    |
+    | SignalR ChatHub.SendRoomMessage()
+    v
+RoomChatService.SendMessageAsync()
+    |
+    +---> IChatMessageFilter (Shared) — blacklist check
+    |
+    +---> LivestreamModule.RoomExistsAsync(roomId) — validate room active
+    |
+    +---> RedisStreamService.XAddAsync("room:{roomId}:chat", message)
+    |         TTL: 7 ngày (EXPIRE trên stream key)
+    |
+    +---> ChatHub.RoomMessageReceived() --> broadcast to all viewers in room
+    |
+    | [Hàng ngày 02:00 JST — Hangfire job]
+    v
+ExportRoomChatToS3Job
+    |
+    +---> RedisStreamService.XRangeAsync(yesterday)
+    +---> S3Service.UploadAsync("chat-archive/{roomId}/{date}.json")
+```
+
+**Lưu ý**: Room chat KHÔNG ghi vào PostgreSQL. Lịch sử available 7 ngày qua Redis, sau đó chỉ còn S3 archive (không expose qua API).
+
+---
+
+## Data Flow: Direct Chat — MOD-06 DirectChat (PostgreSQL Partitioned)
+
+```
+User A (PWA) — gửi tin nhắn 1-1
+    |
+    | POST /api/directchat/send
+    v
+DirectChatService.SendMessageAsync()
+    |
+    +---> IChatMessageFilter (Shared) — blacklist check
+    |
+    +---> ProfilesModule.IsBlockedAsync(senderId, recipientId) — block check
+    |
+    +---> DirectMessageRepository.InsertAsync()
+    |         --> PostgreSQL partition: direct_messages_YYYY_MM
+    |
+    +---> ChatHub.DirectMessageReceived() --> User B (nếu online)
+    |
+    +---> DomainEvent: DirectMessageSent
+              |
+              v
+          NotificationService --> FCM push (nếu User B offline)
+```
 
 ---
 

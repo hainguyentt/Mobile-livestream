@@ -141,3 +141,43 @@
 **Context**: Application Design - Awaiting approval
 
 ---
+
+## Application Design - User Approval
+**Timestamp**: 2026-03-21T01:20:00Z
+**User Input**: "Approve & Continue - Phê duyệt và tiến hành Units Generation"
+**AI Response**: Ghi nhận phê duyệt Application Design. Bắt đầu Units Generation.
+**Context**: Application Design → Units Generation transition
+
+---
+
+## Units Generation - Complete
+**Timestamp**: 2026-03-21T01:30:00Z
+**User Input**: "Xong"
+**AI Response**: Units Generation hoàn thành. Tạo đầy đủ 3 artifacts: unit-of-work.md (5 units với scope/deliverables/DoD), unit-of-work-dependency.md (dependency matrix + parallel dev opportunities), unit-of-work-story-map.md (map 37 stories vào 5 units). Checkboxes trong unit-of-work-plan.md đã đánh dấu [x]. aidlc-state.md đã cập nhật. Chờ user phê duyệt để tiến sang Construction Phase.
+**Context**: Units Generation - Awaiting user approval
+
+---
+
+## Units Generation - Request Changes (Chat Storage Strategy)
+**Timestamp**: 2026-03-21T01:35:00Z
+**User Input**: "Chọn phương án: kết hợp A + B. Tiến hành cập nhật lại tất cả tài liệu liên quan bị ảnh hưởng bởi yêu cầu trên."
+**AI Response**: Phân tích risk lưu chat messages trong PostgreSQL (ước tính ~250M rows/năm). Đề xuất 3 phương án. User chọn A+B: Room chat → Redis Streams (TTL 7 ngày), Private chat → PostgreSQL partitioned by month (retention 12 tháng). Cập nhật 7 files: requirements.md (v1.3, thêm NFR-03-4), requirements.record-of-changes.md, component-methods.md (IRoomChatService → Redis Streams), components.md (MOD-05), services.md (thêm SVC-02b ChatOrchestrationService + 2 background jobs), component-dependency.md (external deps + 2 data flows mới), unit-of-work.md (Unit 2 scope + DoD), application-design.md (MOD-05 description).
+**Context**: Units Generation - Chat storage strategy change applied
+
+---
+
+## Units Generation - Request Changes (Tách MOD-05 Chat thành 2 modules)
+**Timestamp**: 2026-03-21T01:45:00Z
+**User Input**: "A. Đồng ý tách — tiến hành cập nhật tất cả tài liệu (12 modules, tên RoomChat + DirectChat, 1 ChatHub chung)"
+**AI Response**: Tách MOD-05 LivestreamApp.Chat thành MOD-05 LivestreamApp.RoomChat + MOD-06a LivestreamApp.DirectChat. Cập nhật 8 files: components.md (solution structure + 2 module mới + renumber MOD-06→12), component-methods.md (IRoomChatService + IDirectChatService + ChatHub note), component-dependency.md (dependency matrix + external deps + 2 data flows), services.md (SVC-02b RoomChatService + SVC-02c DirectChatService + domain events + background jobs), application-design.md (solution structure + components table), unit-of-work.md (Unit 2 scope + infra + deliverables + DoD), unit-of-work-dependency.md (integration points + parallel dev + shared contracts), requirements.record-of-changes.md (v1.3 thêm dòng).
+**Context**: Units Generation - Module split applied, awaiting approval
+
+---
+
+## Inception Phase - Self-Verification Complete
+**Timestamp**: 2026-03-21T01:50:00Z
+**User Input**: "Tiến hành kiểm tra lại tính đúng đắn về mặt thông tin (liên kết ID giữa các tài liệu, nội dung yêu cầu với thiết kế) trước khi chuyển sang phase Construction. Output: File report toàn diện về kết quả đánh giá, file path 'aidlc-docs/inception/inception-phase-self-verify-report.md'"
+**AI Response**: Thực hiện comprehensive verification toàn bộ Inception Phase artifacts. Tạo report 12 sections covering: artifacts completeness (15/15), requirements→stories traceability (100%), stories→units mapping (37/37), application design consistency (12 modules verified), tech stack consistency, domain events & background jobs (9 jobs), dependencies & integration points, personas mapping, audit trail, issues found (2 minor, 0 blocking). Sửa minor issue #1: unit-of-work-story-map.md Must Have count 32→31. Kết luận: ✅ READY FOR CONSTRUCTION PHASE.
+**Context**: Inception Phase verification complete, awaiting user approval to proceed
+
+---

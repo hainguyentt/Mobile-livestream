@@ -1,7 +1,7 @@
 # Tài Liệu Yêu Cầu
 # Dự Án: App Livestream Hẹn Hò - Thị Trường Nhật Bản
 
-**Phiên bản**: 1.2 — [Xem lịch sử thay đổi](./requirements.record-of-changes.md)  
+**Phiên bản**: 1.3 — [Xem lịch sử thay đổi](./requirements.record-of-changes.md)  
 **Ngày tạo**: 2026-03-21  
 **Cập nhật**: 2026-03-21  
 **Trạng thái**: Draft - Chờ phê duyệt
@@ -191,6 +191,7 @@ Xây dựng ứng dụng **Progressive Web App (PWA)** kết hợp tính năng *
 | NFR-03-1 | Uptime 99.9% (downtime < 8.7 giờ/năm) |
 | NFR-03-2 | Tự động failover cho database |
 | NFR-03-3 | Backup dữ liệu hàng ngày, retention 30 ngày |
+| NFR-03-4 | Chat message retention policy: room chat lưu trong Redis Streams (TTL 7 ngày, không persist PostgreSQL); private chat lưu PostgreSQL với partitioning theo tháng, retention 12 tháng |
 
 ### NFR-04: Bảo Mật (Security)
 

@@ -366,3 +366,26 @@ Tất cả 9 risks đều có MVP mitigation (không "implement sau"). Cost esti
 **Context**: Documentation - README.md updated to project standard
 
 ---
+
+## Construction Phase - Unit 1 Infrastructure Design - User Approval
+**Timestamp**: 2026-03-21T03:35:00Z
+**User Input**: "approve Infrastructure Design để tiến sang Code Generation"
+**AI Response**: Ghi nhận phê duyệt Infrastructure Design Unit 1. Cập nhật aidlc-state.md: Infrastructure Design → DONE, Code Generation → IN PROGRESS. Đã hoàn thành 3 artifacts (infrastructure-design.md, deployment-architecture.md) + 2 cross-cutting docs (shared-infrastructure.md, technical-risk-mitigation.md). Cost estimate MVP: ~$169/tháng. 9 technical risks documented với MVP mitigation. Bắt đầu Code Generation stage.
+**Context**: Unit 1 Infrastructure Design complete → Code Generation started
+
+---
+
+## Construction Phase - Unit 1 Code Generation - Planning Complete
+**Timestamp**: 2026-03-21T03:40:00Z
+**AI Response**: Đã tạo detailed code generation plan với 160 steps cho Unit 1: Core Foundation. Plan bao gồm 7 stories (US-01-01 through US-02-02), 5 modules (Shared, Auth, Profiles, API, MockServices), frontend (PWA + Admin), infrastructure (Docker Compose, Dockerfile), và documentation. Estimated scope: ~80 backend files, ~40 frontend files, ~20 test files, ~10 infrastructure files, ~10 documentation files. Plan location: `aidlc-docs/construction/plans/unit-1-core-foundation-code-generation-plan.md`. Chờ user approval để bắt đầu Part 2 - Generation.
+**Context**: Unit 1 Code Generation - Part 1 Planning complete, awaiting approval
+
+---
+
+## Session State Saved
+**Timestamp**: 2026-03-21T03:45:00Z
+**User Input**: "Save state hiện tại để bắt đầu lại ở 1 PC khác"
+**AI Response**: Đã tạo SESSION-STATE.md với đầy đủ context để resume workflow trên PC khác. File bao gồm: Current status (Code Generation Part 1 Planning complete), Workflow position (Inception 100% + Construction Unit 1 80%), Key decisions (tech stack, architecture, infrastructure), File locations, Resume instructions (6 steps), Progress tracking tables, Important context (user preferences, workflow patterns, critical rules), Troubleshooting guide. Location: `aidlc-docs/SESSION-STATE.md`.
+**Context**: Session state saved for cross-PC resume
+
+---

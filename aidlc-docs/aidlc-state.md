@@ -36,9 +36,6 @@
   - [x] NFR Design — DONE
   - [x] Infrastructure Design — DONE
   - [ ] Code Generation — IN PROGRESS
-  - [ ] NFR Design — EXECUTE
-  - [ ] Infrastructure Design — EXECUTE
-  - [ ] Code Generation — EXECUTE
 - [ ] Unit 2: Livestream Engine
   - [ ] Functional Design — EXECUTE
   - [ ] NFR Requirements — EXECUTE

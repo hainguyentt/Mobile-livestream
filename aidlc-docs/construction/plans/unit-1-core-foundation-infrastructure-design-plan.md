@@ -30,7 +30,7 @@ Từ NFR design + requirements.md:
 - [x] Step 5: Generate `deployment-architecture.md`
 - [x] Step 6: Generate `shared-infrastructure.md`
 - [x] Step 7: Present completion message
-- [ ] Step 8: Chờ user approval
+- [x] Step 8: User approved — proceed to Code Generation
 
 ---
 

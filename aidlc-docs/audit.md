@@ -358,3 +358,11 @@ Tất cả 9 risks đều có MVP mitigation (không "implement sau"). Cost esti
 **Context**: Unit 1 Infrastructure Design - Final cross-cutting consolidation
 
 ---
+
+## README Update
+**Timestamp**: 2026-03-21T03:30:00Z
+**User Input**: "Update nội dung file `README.md` theo standard thông thường các dự án"
+**AI Response**: Đã cập nhật README.md với cấu trúc standard: badges, tổng quan dự án, tech stack, kiến trúc (Modular Monolith với 12 modules), quick start guide, tài liệu links (Inception + Construction + Cross-cutting), testing commands, development roadmap (5 units), deployment instructions (AWS ECS), security & compliance (APPI), monitoring setup, contributing guidelines, license, team, support, success metrics. README bao gồm emoji icons, code blocks, tables, và links đến aidlc-docs/ chi tiết.
+**Context**: Documentation - README.md updated to project standard
+
+---

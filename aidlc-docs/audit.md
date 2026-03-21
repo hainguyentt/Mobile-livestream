@@ -309,3 +309,52 @@
 **Context**: Construction Phase - Unit 1 Infrastructure Design - Proceeding to generation
 
 ---
+
+## Construction Phase - Unit 1 Infrastructure Design - Technical Risk Mitigation Added
+**Timestamp**: 2026-03-21T03:15:00Z
+**User Input**: "Hãy xác định thêm 3-5 rủi ro tương tự để chuẩn bị phương án sớm từ design phase" + "Xem xét lại 1 số vấn đề Technical risk để chuẩn bị giải pháp trong tương lại (Production):- DB bottom-neck WRITE khi số lượng người dùng tăng (chat liên tục, room có nhiều thao tác, trừ point thường xuyên...)-  query DB từ read-only instance thay vì từ write instance- EFCore runtime performance downgrade với query phức tạp"
+**AI Response**: Đã thêm Section 10 "Technical Risk Mitigation (Production Readiness)" vào infrastructure-design.md với 9 risks:
+1. DB Write Bottleneck (5 tầng giải pháp: T1 batching/optimistic concurrency → T5 Event Sourcing)
+2. Read/Write Separation (Dual DbContext pattern, bật Read Replica khi cần)
+3. EF Core Query Performance (Hybrid EF+Dapper, AsSplitQuery, slow query monitoring)
+4. SignalR Connection Scalability (Redis backplane, connection limit, tách service)
+5. Redis Memory Exhaustion (LRU eviction, mandatory TTL, upgrade path)
+6. S3 Cost Explosion (Hard limits, orphan cleanup job, Intelligent-Tiering)
+7. JWT Secret Rotation Downtime (Multi-key validation, zero-downtime rotation)
+8. Agora Free Tier Limits (Usage tracking, channel limit, billing alerts)
+9. APPI Data Breach Response (Audit logs, incident playbook, PPC notification templates)
+Tất cả 9 risks đều có MVP mitigation (không "implement sau"). Cost estimate MVP: ~$169/tháng. Chờ user approval.
+**Context**: Unit 1 Infrastructure Design - Technical risks documented, awaiting approval
+
+---
+
+## Construction Phase - Unit 1 Infrastructure Design - Completion Message
+**Timestamp**: 2026-03-21T03:16:00Z
+**AI Response**: Trình bày completion message theo format 2-option (Request Changes | Continue to Next Stage). Infrastructure Design hoàn thành với 3 artifacts + 9 technical risks documented.
+**Context**: Unit 1 Infrastructure Design - Awaiting user approval
+
+---
+
+## Construction Phase - Unit 1 Infrastructure Design - File Restructure
+**Timestamp**: 2026-03-21T03:20:00Z
+**User Input**: "Nội dung `10. Technical Risk Mitigation (Production Readiness)` để trong file `infrastructure-design.md` có hợp lý không? Có nên tách ra 1 file riêng để dễ theo dõi và tham khảo"
+**AI Response**: Đồng ý tách ra file riêng. Lý do: (1) Dễ tham khảo cho cả team, (2) Scope khác nhau (infrastructure vs risks), (3) Reusability cho units sau, (4) Maintainability. Đã tạo `technical-risk-mitigation.md` với đầy đủ 9 risks + monitoring triggers + cross-unit patterns. Cập nhật `infrastructure-design.md` Section 10 thành reference link. Cấu trúc mới: infrastructure-design/ gồm 3 files chính (infrastructure-design.md, deployment-architecture.md, technical-risk-mitigation.md).
+**Context**: Unit 1 Infrastructure Design - File restructure for better organization
+
+---
+
+## Construction Phase - Unit 1 Infrastructure Design - Move to Cross-Cutting
+**Timestamp**: 2026-03-21T03:22:00Z
+**User Input**: "Tài liệu `technical-risk-mitigation.md` để trong unit-1 có hợp lý? Nên chuẩn bị 1 folder riêng cho các nội dung cross-unit concerns / cutting-edge của nhiều unit để không làm rối folder `construction`"
+**AI Response**: Đồng ý hoàn toàn. Technical risks là cross-cutting concern áp dụng cho tất cả units (Risk #4 SignalR thuộc Unit 2, Risk #8 Agora thuộc Unit 2, Risk #3/#9 áp dụng toàn system). Đã tạo folder `construction/cross-cutting/` và di chuyển `technical-risk-mitigation.md` vào đó bằng smartRelocate. Cập nhật references trong `infrastructure-design.md` và `shared-infrastructure.md`. Cấu trúc mới: `construction/cross-cutting/` chứa cross-unit concerns (technical risks, future: security guidelines, performance patterns, monitoring strategy).
+**Context**: Unit 1 Infrastructure Design - Reorganize cross-cutting concerns
+
+---
+
+## Construction Phase - Unit 1 Infrastructure Design - Consolidate Cross-Cutting
+**Timestamp**: 2026-03-21T03:25:00Z
+**User Input**: "tại sao không đưa file `shared-infrastructure.md` vào folder `cross-cutting`"
+**AI Response**: Đúng hoàn toàn! `shared-infrastructure.md` cũng là cross-cutting concern (shared AWS resources, schema ownership, Redis namespaces, cross-cutting patterns). Đã di chuyển vào `construction/cross-cutting/` bằng smartRelocate để nhất quán với `technical-risk-mitigation.md`. Cập nhật reference trong `infrastructure-design.md` Section 11. Cấu trúc cuối cùng: `construction/cross-cutting/` chứa 2 files (shared-infrastructure.md + technical-risk-mitigation.md), tất cả unit folders chỉ chứa unit-specific artifacts.
+**Context**: Unit 1 Infrastructure Design - Final cross-cutting consolidation
+
+---

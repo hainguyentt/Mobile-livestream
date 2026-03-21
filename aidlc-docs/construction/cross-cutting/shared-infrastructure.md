@@ -167,6 +167,8 @@ ExternalServices__LinePay__MockMode=true
 
 ## 6. Cross-Cutting Technical Risk Patterns
 
+> **📄 Chi tiết đầy đủ**: Xem [`cross-cutting/technical-risk-mitigation.md`](./cross-cutting/technical-risk-mitigation.md) cho 9 production risks và mitigation strategies.
+
 Các patterns sau áp dụng cho **tất cả units** — implement ngay từ Unit 1, không refactor sau:
 
 ### 6.1 Dual DbContext (Read/Write Separation)

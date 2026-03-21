@@ -102,3 +102,42 @@
 **Context**: Workflow Planning - Awaiting user approval
 
 ---
+
+## Workflow Planning - Request Changes (Mock Services)
+**Timestamp**: 2026-03-21T00:50:00Z
+**User Input**: "Đề xuất phương án tích hợp/phát triển Mock service cho third-party như Stripe, Agora/AWS ở phase phát triển early mà không cần hợp đồng sớm. Mục đích: thúc đẩy nhanh vào việc test sớm được"
+**AI Response**: Thêm Section 5 "Chiến Lược Mock Services" vào execution-plan.md. Bao gồm: Stripe Test Mode, LINE Pay Mock Server (.NET), Agora Free Tier, LocalStack cho AWS services, docker-compose setup, code samples, thứ tự ưu tiên setup.
+**Context**: Workflow Planning - Mock strategy added, awaiting re-approval
+
+---
+
+## Workflow Planning - Request Changes (Stripe Mock Server)
+**Timestamp**: 2026-03-21T00:55:00Z
+**User Input**: "Xem xét effort xây Mock Server bằng ASP.NET Core cho Stripe, nếu nhỏ hơn 5 man-days effort thì hãy xây mocker server"
+**AI Response**: Phân tích effort Stripe Mock Server = ~4 man-days < 5 man-days → quyết định xây. Cập nhật Section 5.1 (bảng tổng quan), Section 5.2 (Stripe → Mock Server thay vì Test Mode only), Section 5.3 (thứ tự ưu tiên), Section 5.4 (Unit 3). Giữ Stripe Test Mode như fallback.
+**Context**: Workflow Planning - Stripe mock decision made, awaiting re-approval
+
+---
+
+## Workflow Planning - User Approval
+**Timestamp**: 2026-03-21T01:00:00Z
+**User Input**: "Approve & Continue - Phê duyệt và tiến hành Application Design"
+**AI Response**: Ghi nhận phê duyệt Workflow Planning. Bắt đầu Application Design.
+**Context**: Workflow Planning → Application Design transition
+
+---
+
+## Application Design - Answers Received
+**Timestamp**: 2026-03-21T01:05:00Z
+**User Input**: "Xong" (Q1:B Modular Monolith, Q2:B Admin app riêng, Q3:B Multi-Hub, Q4:A MockServices project riêng)
+**AI Response**: Bắt đầu generate application design artifacts.
+**Context**: Application Design - Part 2 Generation
+
+---
+
+## Application Design - Complete
+**Timestamp**: 2026-03-21T01:15:00Z
+**AI Response**: Tạo đầy đủ 5 artifacts: components.md (11 modules + 2 frontends + 1 mock), component-methods.md (interfaces cho 10 modules + 3 SignalR hubs), services.md (8 orchestration services + 9 domain events + 7 background jobs), component-dependency.md (dependency matrix + data flows), application-design.md (consolidation). Chờ user phê duyệt.
+**Context**: Application Design - Awaiting approval
+
+---

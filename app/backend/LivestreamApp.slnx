@@ -1,0 +1,9 @@
+<Solution>
+  <Project Path="../mock/LivestreamApp.MockServices/LivestreamApp.MockServices.csproj" />
+  <Project Path="../tests/LivestreamApp.Tests.Unit/LivestreamApp.Tests.Unit.csproj" />
+  <Project Path="../tests/LivestreamApp.Tests.Integration/LivestreamApp.Tests.Integration.csproj" />
+  <Project Path="LivestreamApp.API/LivestreamApp.API.csproj" />
+  <Project Path="LivestreamApp.Auth/LivestreamApp.Auth.csproj" />
+  <Project Path="LivestreamApp.Profiles/LivestreamApp.Profiles.csproj" />
+  <Project Path="LivestreamApp.Shared/LivestreamApp.Shared.csproj" />
+</Solution>

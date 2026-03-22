@@ -1,0 +1,109 @@
+{
+  "auth": {
+    "AUTH_INVALID_CREDENTIALS": "メールアドレスまたはパスワードが正しくありません",
+    "AUTH_FORBIDDEN": "アクセスが拒否されました",
+    "AUTH_EMAIL_TAKEN": "このメールアドレスはすでに使用されています",
+    "AUTH_VALIDATION_ERROR": "入力内容を確認してください",
+    "AUTH_RATE_LIMITED": "しばらく時間をおいてから再度お試しください",
+    "AUTH_SERVER_ERROR": "サーバーエラーが発生しました。しばらくしてからお試しください"
+  },
+  "common": {
+    "loading": "読み込み中...",
+    "processing": "処理中...",
+    "error": "エラーが発生しました",
+    "submit": "送信",
+    "cancel": "キャンセル",
+    "save": "保存",
+    "back": "戻る"
+  },
+  "register": {
+    "appName": "LiveStream",
+    "title": "アカウント登録",
+    "subtitle": "新しいアカウントを作成",
+    "emailLabel": "メールアドレス",
+    "passwordLabel": "パスワード",
+    "submitButton": "登録する",
+    "hasAccount": "すでにアカウントをお持ちの方は",
+    "loginLink": "すでにアカウントをお持ちの方はこちら",
+    "loginLinkLabel": "こちら",
+    "successMessage": "登録が完了しました。メールを確認してください。"
+  },
+  "login": {
+    "appName": "LiveStream",
+    "tagline": "ライブ配信で繋がろう",
+    "title": "ログイン",
+    "subtitle": "メールまたはLINEでログイン",
+    "emailLabel": "メールアドレス",
+    "passwordLabel": "パスワード",
+    "submitButton": "ログイン",
+    "lineButton": "LINEでログイン",
+    "noAccount": "アカウントをお持ちでない方は",
+    "registerLink": "アカウントをお持ちでない方はこちら",
+    "registerLinkLabel": "こちら",
+    "forgotPassword": "パスワードをお忘れの方"
+  },
+  "otp": {
+    "title": "認証コード入力",
+    "description": "6桁のコードを入力してください",
+    "digitLabel": "コード {index}桁目",
+    "groupLabel": "認証コード",
+    "submitButton": "認証する",
+    "verifyingButton": "確認中...",
+    "invalidError": "認証コードが無効または期限切れです"
+  },
+  "verifyEmail": {
+    "title": "メール認証",
+    "description": "メールに送信された6桁のコードを入力してください",
+    "codeLabel": "認証コード",
+    "submitButton": "認証する",
+    "resendButton": "コードを再送する"
+  },
+  "verifyPhone": {
+    "title": "電話番号認証",
+    "description": "SMSに送信された6桁のコードを入力してください",
+    "phoneLabel": "電話番号",
+    "codeLabel": "認証コード",
+    "submitButton": "認証する"
+  },
+  "resetPassword": {
+    "title": "パスワードリセット",
+    "emailLabel": "メールアドレス",
+    "newPasswordLabel": "新しいパスワード",
+    "otpLabel": "認証コード",
+    "submitButton": "パスワードをリセット",
+    "sendCodeButton": "コードを送信",
+    "sendingButton": "送信中...",
+    "sendError": "コードの送信に失敗しました。メールアドレスを確認してください。",
+    "resetError": "パスワードのリセットに失敗しました。コードを確認してください。"
+  },
+  "profile": {
+    "title": "プロフィール",
+    "editButton": "編集",
+    "bioLabel": "自己紹介",
+    "interestsLabel": "興味・関心",
+    "photosTitle": "写真",
+    "verifiedBadge": "認証済みホスト",
+    "displayNameLabel": "表示名",
+    "noProfile": "プロフィールがまだ作成されていません",
+    "createButton": "プロフィールを作成",
+    "managePhotos": "写真を管理する →",
+    "editTitle": "プロフィール編集",
+    "createTitle": "プロフィール作成",
+    "dateOfBirthLabel": "生年月日",
+    "interestsPlaceholder": "音楽, ゲーム, 旅行",
+    "interestsHint": "興味・関心（カンマ区切り）",
+    "languageLabel": "言語設定",
+    "saveButton": "保存する",
+    "savingButton": "保存中...",
+    "creatingButton": "作成中...",
+    "createErrorMessage": "プロフィールの作成に失敗しました。",
+    "updateErrorMessage": "プロフィールの更新に失敗しました。",
+    "photosPageTitle": "写真管理",
+    "photoAlt": "写真 {index}",
+    "photoUploadLabel": "写真 {index} をアップロード",
+    "photoUploading": "アップロード中...",
+    "photoUploadError": "アップロードに失敗しました。もう一度お試しください。",
+    "photoInvalidType": "JPEG、PNG、WebP形式のみアップロード可能です",
+    "photoTooLarge": "ファイルサイズは10MB以下にしてください"
+  }
+}

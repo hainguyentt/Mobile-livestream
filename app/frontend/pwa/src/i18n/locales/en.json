@@ -1,0 +1,109 @@
+{
+  "auth": {
+    "AUTH_INVALID_CREDENTIALS": "Invalid email or password",
+    "AUTH_FORBIDDEN": "Access denied",
+    "AUTH_EMAIL_TAKEN": "This email address is already in use",
+    "AUTH_VALIDATION_ERROR": "Please check your input",
+    "AUTH_RATE_LIMITED": "Too many attempts. Please try again later",
+    "AUTH_SERVER_ERROR": "A server error occurred. Please try again later"
+  },
+  "common": {
+    "loading": "Loading...",
+    "processing": "Processing...",
+    "error": "An error occurred",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "save": "Save",
+    "back": "Back"
+  },
+  "register": {
+    "appName": "LiveStream",
+    "title": "Create Account",
+    "subtitle": "Create a new account",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "submitButton": "Register",
+    "hasAccount": "Already have an account?",
+    "loginLink": "Already have an account? Log in",
+    "loginLinkLabel": "Log in",
+    "successMessage": "Registration successful. Please check your email."
+  },
+  "login": {
+    "appName": "LiveStream",
+    "tagline": "Connect through live streaming",
+    "title": "Log In",
+    "subtitle": "Log in with email or LINE",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "submitButton": "Log In",
+    "lineButton": "Log in with LINE",
+    "noAccount": "Don't have an account?",
+    "registerLink": "Don't have an account? Register",
+    "registerLinkLabel": "Register",
+    "forgotPassword": "Forgot your password?"
+  },
+  "otp": {
+    "title": "Enter Verification Code",
+    "description": "Enter the 6-digit code",
+    "digitLabel": "Digit {index}",
+    "groupLabel": "Verification code",
+    "submitButton": "Verify",
+    "verifyingButton": "Verifying...",
+    "invalidError": "Invalid or expired verification code"
+  },
+  "verifyEmail": {
+    "title": "Email Verification",
+    "description": "Enter the 6-digit code sent to your email",
+    "codeLabel": "Verification Code",
+    "submitButton": "Verify",
+    "resendButton": "Resend Code"
+  },
+  "verifyPhone": {
+    "title": "Phone Verification",
+    "description": "Enter the 6-digit code sent via SMS",
+    "phoneLabel": "Phone Number",
+    "codeLabel": "Verification Code",
+    "submitButton": "Verify"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "emailLabel": "Email Address",
+    "newPasswordLabel": "New Password",
+    "otpLabel": "Verification Code",
+    "submitButton": "Reset Password",
+    "sendCodeButton": "Send Code",
+    "sendingButton": "Sending...",
+    "sendError": "Failed to send code. Please check your email address.",
+    "resetError": "Failed to reset password. Please check your code."
+  },
+  "profile": {
+    "title": "Profile",
+    "editButton": "Edit",
+    "bioLabel": "Bio",
+    "interestsLabel": "Interests",
+    "photosTitle": "Photos",
+    "verifiedBadge": "Verified Host",
+    "displayNameLabel": "Display Name",
+    "noProfile": "You haven't created a profile yet",
+    "createButton": "Create Profile",
+    "managePhotos": "Manage Photos →",
+    "editTitle": "Edit Profile",
+    "createTitle": "Create Profile",
+    "dateOfBirthLabel": "Date of Birth",
+    "interestsPlaceholder": "Music, Gaming, Travel",
+    "interestsHint": "Interests (comma-separated)",
+    "languageLabel": "Language",
+    "saveButton": "Save",
+    "savingButton": "Saving...",
+    "creatingButton": "Creating...",
+    "createErrorMessage": "Failed to create profile.",
+    "updateErrorMessage": "Failed to update profile.",
+    "photosPageTitle": "Manage Photos",
+    "photoAlt": "Photo {index}",
+    "photoUploadLabel": "Upload photo {index}",
+    "photoUploading": "Uploading...",
+    "photoUploadError": "Upload failed. Please try again.",
+    "photoInvalidType": "Only JPEG, PNG, and WebP files are allowed",
+    "photoTooLarge": "File size must be 10MB or less"
+  }
+}

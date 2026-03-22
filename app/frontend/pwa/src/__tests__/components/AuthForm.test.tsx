@@ -18,12 +18,14 @@ jest.mock('@/shared/lib/navigation', () => ({
 // Mock entities/user — define mock inside factory to avoid hoisting issues
 jest.mock('@/entities/user', () => {
   const loginFn = jest.fn()
-  const store = jest.fn(() => ({
-    login: loginFn,
-    isLoading: false,
-    error: null,
-  }))
-  store.getState = jest.fn(() => ({ error: null }))
+  const store = Object.assign(
+    jest.fn(() => ({
+      login: loginFn,
+      isLoading: false,
+      error: null,
+    })),
+    { getState: jest.fn(() => ({ error: null })) }
+  )
   return {
     useAuthStore: store,
     authApi: {},

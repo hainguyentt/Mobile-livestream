@@ -4,7 +4,7 @@
 - **Project Name**: Livestream Hẹn Hò - Thị Trường Nhật Bản
 - **Project Type**: Greenfield
 - **Start Date**: 2026-03-21T00:00:00Z
-- **Current Stage**: CONSTRUCTION - Unit 1: Core Foundation - Functional Design
+- **Current Stage**: CONSTRUCTION - Unit 2: Livestream Engine - Code Generation
 
 ## Workspace State
 - **Existing Code**: No
@@ -38,10 +38,10 @@
   - [ ] Code Generation — IN PROGRESS
     - [x] UI/UX Design System — COMPLETED
 - [ ] Unit 2: Livestream Engine
-  - [ ] Functional Design — EXECUTE
-  - [ ] NFR Requirements — EXECUTE
-  - [ ] NFR Design — EXECUTE
-  - [ ] Infrastructure Design — EXECUTE
+  - [x] Functional Design — DONE
+  - [x] NFR Requirements — DONE
+  - [x] NFR Design — DONE
+  - [x] Infrastructure Design — DONE
   - [ ] Code Generation — EXECUTE
 - [ ] Unit 3: Coin & Payment
   - [ ] Functional Design — EXECUTE

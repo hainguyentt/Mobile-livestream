@@ -92,7 +92,7 @@
 - [ ] Host có thể bắt đầu/kết thúc public stream
 - [ ] Viewer có thể join/leave room, xem video
 - [ ] Chat real-time hoạt động trong phòng (<500ms) — qua Redis Streams + SignalR
-- [ ] Private chat 1-1 lưu PostgreSQL partitioned, query đúng partition
+- [ ] Direct chat 1-1 lưu PostgreSQL partitioned, query đúng partition
 - [ ] Room chat TTL 7 ngày hoạt động (Redis EXPIRE)
 - [ ] ExportRoomChatToS3 job chạy thành công
 - [ ] Private call flow hoạt động end-to-end (request → accept → billing → end)

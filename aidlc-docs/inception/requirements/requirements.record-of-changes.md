@@ -14,8 +14,8 @@
 | 1.1 | 2026-03-21 | ➕ Bổ sung | Section 6.6 (mới) | Thêm phân tích so sánh SignalR vs Socket.io; quyết định dùng ASP.NET Core SignalR |
 | 1.1 | 2026-03-21 | ✏️ Chỉnh sửa | Section 8 | Cập nhật Out of Scope: Leaderboard nâng cao (Phase 2 mở rộng từ FR-11 MVP) |
 | 1.2 | 2026-03-21 | ✏️ Chỉnh sửa | FR-07 | FR-07-6: Đổi ưu tiên Host rút tiền từ Must Have → Could Have, không nằm trong scope MVP |
-| 1.3 | 2026-03-21 | ➕ Bổ sung | NFR-03 | Thêm NFR-03-4: Chat message retention policy — room chat dùng Redis Streams (TTL 7 ngày, không persist PostgreSQL); private chat dùng PostgreSQL partitioning theo tháng, retention 12 tháng |
-| 1.3 | 2026-03-21 | 🔄 Thay thế | Section 6.3 | Cập nhật Database strategy: Chat module tách thành 2 storage — Redis Streams cho room chat, PostgreSQL (partitioned) cho private chat |
+| 1.3 | 2026-03-21 | ➕ Bổ sung | NFR-03 | Thêm NFR-03-4: Chat message retention policy — room chat dùng Redis Streams (TTL 7 ngày, không persist PostgreSQL); direct chat dùng PostgreSQL partitioning theo tháng, retention 12 tháng |
+| 1.3 | 2026-03-21 | 🔄 Thay thế | Section 6.3 | Cập nhật Database strategy: Chat module tách thành 2 storage — Redis Streams cho room chat, PostgreSQL (partitioned) cho direct chat |
 | 1.3 | 2026-03-21 | 🔄 Thay thế | Application Design | Tách MOD-05 LivestreamApp.Chat thành 2 modules riêng: MOD-05 LivestreamApp.RoomChat (Redis Streams) + MOD-06 LivestreamApp.DirectChat (PostgreSQL partitioned). Tổng: 12 backend modules. ChatHub giữ chung tại API layer. IChatMessageFilter đưa vào Shared. ||
 
 ---

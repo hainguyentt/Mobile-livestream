@@ -650,3 +650,102 @@ Files created:
 - aidlc-docs/construction/frontend-recreation/code-generation-plan.md
 
 ---
+
+## Construction Phase - Unit 2 Livestream Engine - Start
+**Timestamp**: 2026-03-22T12:00:00Z
+**User Input**: "Using AI-DLC, start implementing Unit 2"
+**AI Response**: Bắt đầu Construction Phase — Unit 2: Livestream Engine. Đọc context từ unit-of-work.md, unit-of-work-story-map.md, và Unit 1 artifacts. Bắt đầu Functional Design — tạo plan với questions.
+**Context**: Construction Phase - Unit 2 Livestream Engine - Functional Design - Planning
+
+---
+
+## Terminology Clarification — "DirectChat" vs "PrivateChat"
+**Timestamp**: 2026-03-22T12:10:00Z
+**User Input**: "Đã quyết định là dùng DirectChat thay cho PrivateChat. Hãy kiểm tra lại toàn bộ các tài liệu liên quan để xác nhận lại"
+**AI Response**: Kiểm tra toàn bộ tài liệu. Kết quả: thuật ngữ đã đúng — "DirectChat" là tên module (MOD-06) cho chat text 1-1, "Private Call" là video call 1-1 (MOD-04). Hai khái niệm khác nhau, không nhầm lẫn. Chỉ sửa 3 chỗ dùng cụm từ mô tả "private chat" → "direct chat" trong: requirements.md (NFR-03-4), requirements.record-of-changes.md (2 dòng v1.3), unit-of-work.md (DoD item).
+**Context**: Terminology verification — no structural changes needed
+
+---
+
+## Construction Phase - Unit 2 Functional Design - Answers Received
+**Timestamp**: 2026-03-22T12:20:00Z
+**User Input**: "Trả lời xong 21 câu hỏi"
+**AI Response**: Đọc 21 câu trả lời. Không phát hiện ambiguity (Q-E4 có note bổ sung rõ ràng: hiển thị balance real-time khi sắp hết coin). Bắt đầu generate 4 functional design artifacts.
+**Context**: Construction Phase - Unit 2 Functional Design - Proceeding to generation
+
+**Tóm tắt câu trả lời**:
+- Q-A1: B — Title + category/tag bắt buộc
+- Q-A2: A — Chỉ 1 stream active tại một thời điểm
+- Q-A3: D — Đăng nhập + đủ tuổi + không bị block bởi Host
+- Q-A4: B — Viewers có 30 giây replay trước khi disconnect
+- Q-A5: B — Cached count cập nhật mỗi 5 giây
+- Q-A6: B — Giới hạn 1000 viewers per room (MVP)
+- Q-B1: A — Chỉ 1 pending request tại một thời điểm
+- Q-B2: A — 30 giây timeout → auto reject
+- Q-B3: A — Tính phí mỗi 10 giây, trừ coin từ Viewer (không split với Host ở Unit 2)
+- Q-B4: D — Cảnh báo khi coin balance < 100 coins
+- Q-B5: A — Auto-end call ngay khi hết coin
+- Q-B6: A — Public stream vẫn chạy khi Host đang private call (video/audio tắt với viewers)
+- Q-C1: A — Chỉ filter profanity (danh sách từ cấm cứng)
+- Q-C2: A — Tối đa 3 tin nhắn/giây per user
+- Q-C3: B — Bị ban cho đến khi stream kết thúc
+- Q-C4: C — Không có history, chỉ thấy tin nhắn từ khi join
+- Q-D1: B — Chỉ Viewer có thể nhắn tin cho Host
+- Q-D2: B — Text + emoji reactions
+- Q-D3: A — Conversation bị ẩn cả 2 phía, không gửi được
+- Q-D4: A — Push notification mỗi tin nhắn mới
+- Q-E1: A — Grid layout, sort by viewer count
+- Q-E2: D — Volume + fullscreen + quality + chat toggle + gift button
+- Q-E3: A — Nút "Gọi riêng" từ profile Host
+- Q-E4: D+note — Hiển thị coin balance real-time khi sắp hết coin (< 100 coins)
+- Q-E5: C — Cả tab bottom nav + accessible từ profile
+
+---
+
+## Construction Phase - Unit 2 Functional Design - User Approval
+**Timestamp**: 2026-03-22T12:30:00Z
+**User Input**: "Continue to Next Stage — Phê duyệt và tiến sang NFR Requirements"
+**AI Response**: Ghi nhận phê duyệt Functional Design Unit 2. Bắt đầu NFR Requirements cho Unit 2.
+**Context**: Unit 2 Functional Design complete → NFR Requirements started
+
+---
+
+## Construction Phase - Unit 2 NFR Requirements - Start
+**Timestamp**: 2026-03-22T12:31:00Z
+**User Input**: N/A (auto-proceed)
+**AI Response**: Load rule details từ .kiro/aws-aidlc-rule-details/construction/nfr-requirements.md. Phân tích functional design artifacts Unit 2. Tạo NFR Requirements Plan với questions. Chờ user trả lời.
+**Context**: Construction Phase - Unit 2 NFR Requirements - Planning
+
+---
+
+## NFR Requirements — Unit 2: Livestream Engine — Completed
+**Timestamp**: 2026-03-22T00:00:00Z
+**User Input**: "Continue to Next Stage — Phê duyệt và tiến sang NFR Requirements"
+**AI Response**: Hoàn thành NFR Requirements cho Unit 2. Đã tạo: tradeoff-analysis.md (13 questions), nfr-requirements.md, tech-stack-decisions.md. Cập nhật aidlc-state.md và plan file.
+**Context**: Construction Phase - Unit 2 - NFR Requirements stage COMPLETED
+
+---
+
+## NFR Design — Unit 2: Livestream Engine — Completed
+**Timestamp**: 2026-03-22T01:00:00Z
+**User Input**: "Continue to Next Stage - NFR Design (áp dụng NFR patterns vào architecture)"
+**AI Response**: Hoàn thành NFR Design cho Unit 2. Đã tạo: nfr-design-patterns.md (10 patterns), logical-components.md (7 sections). Cập nhật aidlc-state.md.
+**Context**: Construction Phase - Unit 2 - NFR Design stage COMPLETED
+
+---
+
+## Infrastructure Design — Unit 2: Livestream Engine — Completed
+**Timestamp**: 2026-03-22T02:00:00Z
+**User Input**: "B. Continue to Next Stage — Tiến sang Infrastructure Design (mapping services lên AWS infrastructure)"
+**AI Response**: Hoàn thành Infrastructure Design cho Unit 2. Đã tạo: infrastructure-design.md (10 sections), deployment-architecture.md (9 sections). Cập nhật aidlc-state.md.
+**Context**: Construction Phase - Unit 2 - Infrastructure Design stage COMPLETED
+
+---
+
+## Code Generation — Unit 2: Livestream Engine — Plan Created
+**Timestamp**: 2026-03-22T03:00:00Z
+**User Input**: "B. Continue to Next Stage — Tiến sang Code Generation (Part 1: Planning)"
+**AI Response**: Tạo Code Generation Plan cho Unit 2 với 134 steps, 35 phases. Chờ user approval để tiến sang Part 2 (Generation).
+**Context**: Construction Phase - Unit 2 - Code Generation Part 1 (Planning) COMPLETED
+
+---

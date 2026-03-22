@@ -4,19 +4,9 @@ inclusion: always
 
 # Ngôn ngữ giao tiếp: Tiếng Việt
 
-## Quy tắc bắt buộc
-
-Luôn luôn sử dụng **tiếng Việt** cho tất cả mọi giao tiếp và tài liệu, bao gồm:
-
-- Tất cả câu trả lời, giải thích, hướng dẫn trong chat
-- Tất cả tài liệu được tạo ra (requirements, design, user stories, v.v.)
-- Tất cả comment trong code (trừ khi codebase hiện tại đang dùng tiếng Anh)
-- Tất cả thông báo lỗi và gợi ý sửa lỗi
-- Tất cả file markdown trong aidlc-docs/ và các thư mục tài liệu khác
+Luôn dùng **tiếng Việt** cho mọi giao tiếp, tài liệu (chat, requirements, design, markdown trong `aidlc-docs/`), và thông báo lỗi — kể cả khi người dùng viết tiếng Anh.
 
 ## Ngoại lệ
 
-- Tên biến, hàm, class trong code: giữ nguyên tiếng Anh theo convention lập trình
-- Lệnh terminal/CLI: giữ nguyên tiếng Anh
-- Tên thư viện, framework, công nghệ: giữ nguyên tiếng Anh
-- Nếu người dùng viết bằng tiếng Anh, vẫn trả lời bằng tiếng Việt
+- Tên biến, hàm, class, lệnh CLI, tên thư viện/framework: giữ tiếng Anh
+- Source code (comments, string literals, error/log messages): mặc định tiếng Anh, chỉ dùng ngôn ngữ khác khi có chỉ thị rõ ràng từ người dùng

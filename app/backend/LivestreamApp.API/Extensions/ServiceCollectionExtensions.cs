@@ -2,6 +2,8 @@ using Amazon.Runtime;
 using Amazon.S3;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using LivestreamApp.API.Hubs;
+using LivestreamApp.API.HostedServices;
 using LivestreamApp.API.Infrastructure;
 using LivestreamApp.API.Infrastructure.Options;
 using LivestreamApp.API.Infrastructure.Repositories;
@@ -9,8 +11,13 @@ using LivestreamApp.API.Infrastructure.Services;
 using LivestreamApp.Auth.Options;
 using LivestreamApp.Auth.Repositories;
 using LivestreamApp.Auth.Services;
+using LivestreamApp.DirectChat.Repositories;
+using LivestreamApp.DirectChat.Services;
+using LivestreamApp.Livestream.Repositories;
+using LivestreamApp.Livestream.Services;
 using LivestreamApp.Profiles.Repositories;
 using LivestreamApp.Profiles.Services;
+using LivestreamApp.RoomChat.Services;
 using LivestreamApp.Shared.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -190,6 +197,67 @@ public static class ServiceCollectionExtensions
                 name: "redis",
                 failureStatus: Microsoft.Extensions.Diagnostics.HealthChecks.HealthStatus.Degraded,
                 tags: ["ready"]);
+
+        return services;
+    }
+
+    /// <summary>Registers SignalR with Redis backplane.</summary>
+    public static IServiceCollection AddSignalRServices(this IServiceCollection services, IConfiguration config)
+    {
+        var redisConn = config.GetConnectionString("Redis")!;
+
+        services.AddSignalR(options =>
+        {
+            options.KeepAliveInterval = TimeSpan.FromSeconds(
+                config.GetValue("SignalR:KeepAliveIntervalSeconds", 15));
+            options.ClientTimeoutInterval = TimeSpan.FromSeconds(
+                config.GetValue("SignalR:ClientTimeoutIntervalSeconds", 30));
+        })
+        .AddStackExchangeRedis(redisConn, options =>
+        {
+            options.Configuration.ChannelPrefix = RedisChannel.Literal("signalr");
+        });
+
+        // Connection tracker — singleton per ECS task
+        services.AddSingleton<IConnectionTracker, ConnectionTracker>();
+
+        return services;
+    }
+
+    /// <summary>Registers Unit 2 — Livestream, RoomChat, DirectChat services.</summary>
+    public static IServiceCollection AddLivestreamServices(this IServiceCollection services)
+    {
+        // Livestream module
+        services.AddScoped<ILivestreamService, LivestreamService>();
+        services.AddScoped<IPrivateCallService, PrivateCallService>();
+        services.AddScoped<IAgoraTokenService, AgoraTokenService>();
+        services.AddScoped<IFeatureFlagService, FeatureFlagService>();
+        services.AddScoped<IBillingService, BillingService>();
+        services.AddScoped<IViewerCountService, ViewerCountService>();
+
+        // Repositories — Livestream
+        services.AddScoped<ILivestreamRoomRepository, LivestreamRoomRepository>();
+        services.AddScoped<IViewerSessionRepository, ViewerSessionRepository>();
+        services.AddScoped<ICallSessionRepository, CallSessionRepository>();
+        services.AddScoped<IBillingTickRepository, BillingTickRepository>();
+
+        // Coin wallet
+        services.AddScoped<ICoinWalletService, CoinWalletService>();
+
+        // RoomChat module
+        services.AddScoped<IRoomChatService, RoomChatService>();
+        services.AddSingleton<IChatRateLimitService, ChatRateLimitService>();
+
+        // DirectChat module
+        services.AddScoped<IDirectChatService, DirectChatService>();
+        services.AddScoped<IConversationRepository, ConversationRepository>();
+        services.AddScoped<IDirectMessageRepository, DirectMessageRepository>();
+        services.AddScoped<IBlockRepository, BlockRepository>();
+
+        // Hosted services
+        services.AddHostedService<PartitionMaintenanceService>();
+        services.AddHostedService<ViewerCountBroadcastService>();
+        services.AddHostedService<MetricsPublisherService>();
 
         return services;
     }

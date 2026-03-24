@@ -76,6 +76,38 @@
     "sendError": "コードの送信に失敗しました。メールアドレスを確認してください。",
     "resetError": "パスワードのリセットに失敗しました。コードを確認してください。"
   },
+  "livestream": {
+    "title": "ライブ",
+    "noActiveRooms": "現在配信中のライブはありません",
+    "chatPlaceholder": "コメントを入力...",
+    "send": "送信",
+    "sendGift": "ギフトを送る",
+    "endStream": "配信を終了",
+    "ending": "終了中...",
+    "confirmEndStream": "配信を終了してもよろしいですか？"
+  },
+  "privateCall": {
+    "incomingCall": "着信",
+    "callFrom": "{name}さんからの通話リクエスト",
+    "accept": "承認",
+    "reject": "拒否",
+    "endCall": "通話を終了",
+    "callEnded": "通話終了",
+    "duration": "通話時間",
+    "coinsCharged": "消費コイン",
+    "close": "閉じる",
+    "balance": "残高",
+    "coins": "コイン",
+    "lowBalance": "残高不足"
+  },
+  "directChat": {
+    "title": "メッセージ",
+    "noConversations": "まだ会話がありません",
+    "messagePlaceholder": "メッセージを入力...",
+    "send": "送信",
+    "emojiReactions": "絵文字リアクション",
+    "toggleEmoji": "絵文字ピッカーを切り替え"
+  },
   "profile": {
     "title": "プロフィール",
     "editButton": "編集",
@@ -104,6 +136,9 @@
     "photoUploading": "アップロード中...",
     "photoUploadError": "アップロードに失敗しました。もう一度お試しください。",
     "photoInvalidType": "JPEG、PNG、WebP形式のみアップロード可能です",
-    "photoTooLarge": "ファイルサイズは10MB以下にしてください"
+    "photoTooLarge": "ファイルサイズは10MB以下にしてください",
+    "photoReplaceLabel": "写真 {index} を差し替える",
+    "photoDeleteLabel": "写真 {index} を削除",
+    "photoSavingOrder": "順番を保存中..."
   }
 }

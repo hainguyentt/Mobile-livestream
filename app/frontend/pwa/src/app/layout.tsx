@@ -8,16 +8,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-  params,
 }: {
   children: React.ReactNode
-  params?: { locale?: string }
 }) {
-  // Default to 'ja' — actual locale is set by next-intl middleware and [locale] routing
-  const lang = params?.locale ?? 'ja'
-
   return (
-    <html lang={lang}>
+    <html lang="ja">
       <body>{children}</body>
     </html>
   )

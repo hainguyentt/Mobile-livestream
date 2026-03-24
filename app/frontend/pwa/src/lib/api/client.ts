@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5174'
+// In dev, Next.js rewrites /api/* → http://localhost:5174/api/* (same-origin, no CORS cookie issues)
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? ''
 
 /**
  * Shared Axios instance for all API calls.

@@ -12,6 +12,7 @@ export interface UserProfile {
   interests: string[]
   preferredLanguage: string
   isVerifiedHost: boolean
+  coinBalance: number
   photos: UserPhoto[]
 }
 

@@ -76,6 +76,38 @@
     "sendError": "Failed to send code. Please check your email address.",
     "resetError": "Failed to reset password. Please check your code."
   },
+  "livestream": {
+    "title": "Live",
+    "noActiveRooms": "No live streams right now",
+    "chatPlaceholder": "Say something...",
+    "send": "Send",
+    "sendGift": "Send gift",
+    "endStream": "End Stream",
+    "ending": "Ending...",
+    "confirmEndStream": "Are you sure you want to end the stream?"
+  },
+  "privateCall": {
+    "incomingCall": "Incoming Call",
+    "callFrom": "Call request from {name}",
+    "accept": "Accept",
+    "reject": "Decline",
+    "endCall": "End Call",
+    "callEnded": "Call Ended",
+    "duration": "Duration",
+    "coinsCharged": "Coins charged",
+    "close": "Close",
+    "balance": "Balance",
+    "coins": "coins",
+    "lowBalance": "Low balance"
+  },
+  "directChat": {
+    "title": "Messages",
+    "noConversations": "No conversations yet",
+    "messagePlaceholder": "Type a message...",
+    "send": "Send",
+    "emojiReactions": "Emoji reactions",
+    "toggleEmoji": "Toggle emoji picker"
+  },
   "profile": {
     "title": "Profile",
     "editButton": "Edit",
@@ -104,6 +136,9 @@
     "photoUploading": "Uploading...",
     "photoUploadError": "Upload failed. Please try again.",
     "photoInvalidType": "Only JPEG, PNG, and WebP files are allowed",
-    "photoTooLarge": "File size must be 10MB or less"
+    "photoTooLarge": "File size must be 10MB or less",
+    "photoReplaceLabel": "Replace photo {index}",
+    "photoDeleteLabel": "Delete photo {index}",
+    "photoSavingOrder": "Saving order..."
   }
 }

@@ -6,4 +6,7 @@
   <Project Path="LivestreamApp.Auth/LivestreamApp.Auth.csproj" />
   <Project Path="LivestreamApp.Profiles/LivestreamApp.Profiles.csproj" />
   <Project Path="LivestreamApp.Shared/LivestreamApp.Shared.csproj" />
+  <Project Path="LivestreamApp.Livestream/LivestreamApp.Livestream.csproj" />
+  <Project Path="LivestreamApp.RoomChat/LivestreamApp.RoomChat.csproj" />
+  <Project Path="LivestreamApp.DirectChat/LivestreamApp.DirectChat.csproj" />
 </Solution>

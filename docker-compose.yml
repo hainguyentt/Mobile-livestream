@@ -68,6 +68,10 @@ services:
       ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=livestream_dev;Username=postgres;Password=postgres"
       Redis__ConnectionString: "redis:6379"
       AWS__ServiceURL: "http://localstack:4566"
+      # Agora (Unit 2 — Livestream Engine)
+      Agora__AppId: "${AGORA_APP_ID:-}"
+      Agora__AppCertificate: "${AGORA_APP_CERTIFICATE:-}"
+      Agora__MockMode: "true"
     depends_on:
       postgres:
         condition: service_healthy

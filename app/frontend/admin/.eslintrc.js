@@ -15,17 +15,17 @@ module.exports = {
   },
   rules: {
     // FSD layer hierarchy — upper layers can import from lower layers only
-    'boundaries/element-types': [
+    'boundaries/dependencies': [
       'error',
       {
         default: 'disallow',
         rules: [
-          { from: 'app',      allow: ['views', 'widgets', 'features', 'entities', 'shared'] },
-          { from: 'views',    allow: ['widgets', 'features', 'entities', 'shared'] },
-          { from: 'widgets',  allow: ['features', 'entities', 'shared'] },
-          { from: 'features', allow: ['entities', 'shared'] },
-          { from: 'entities', allow: ['shared'] },
-          { from: 'shared',   allow: [] },
+          { from: { type: 'app' },      allow: [{ to: { type: 'views' } }, { to: { type: 'widgets' } }, { to: { type: 'features' } }, { to: { type: 'entities' } }, { to: { type: 'shared' } }] },
+          { from: { type: 'views' },    allow: [{ to: { type: 'widgets' } }, { to: { type: 'features' } }, { to: { type: 'entities' } }, { to: { type: 'shared' } }] },
+          { from: { type: 'widgets' },  allow: [{ to: { type: 'features' } }, { to: { type: 'entities' } }, { to: { type: 'shared' } }] },
+          { from: { type: 'features' }, allow: [{ to: { type: 'entities' } }, { to: { type: 'shared' } }] },
+          { from: { type: 'entities' }, allow: [{ to: { type: 'shared' } }] },
+          { from: { type: 'shared' },   allow: [] },
         ],
       },
     ],

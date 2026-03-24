@@ -13,6 +13,7 @@ public sealed class UserProfile : Entity<Guid>
     public string[] Interests { get; private set; } = [];
     public string PreferredLanguage { get; private set; }
     public bool IsProfileComplete { get; private set; }
+    public int CoinBalance { get; private set; }
     public DateTime CreatedAt { get; private set; }
     public DateTime UpdatedAt { get; private set; }
 
@@ -62,5 +63,22 @@ public sealed class UserProfile : Entity<Guid>
 
         if (updatedFields.Count > 0)
             RaiseDomainEvent(new ProfileUpdatedEvent(Id, [.. updatedFields]));
+    }
+
+    /// <summary>Deducts coins from balance. Throws if insufficient.</summary>
+    public void DeductCoins(int coins)
+    {
+        if (coins <= 0) throw new DomainException("Coins to deduct must be positive.");
+        if (CoinBalance < coins) throw new DomainException("Insufficient coin balance.");
+        CoinBalance -= coins;
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    /// <summary>Adds coins to balance (top-up or reward).</summary>
+    public void AddCoins(int coins)
+    {
+        if (coins <= 0) throw new DomainException("Coins to add must be positive.");
+        CoinBalance += coins;
+        UpdatedAt = DateTime.UtcNow;
     }
 }

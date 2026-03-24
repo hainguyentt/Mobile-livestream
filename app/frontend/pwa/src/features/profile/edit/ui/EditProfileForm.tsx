@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useTranslations } from 'next-intl'
+import axios from 'axios'
 import { useRouter } from '@/shared/lib/navigation'
 import { useProfileStore, profilesApi } from '@/entities/profile'
 import { Button, Input, Skeleton, Card, CardContent, CardHeader, CardTitle } from '@/shared/ui'
@@ -37,6 +38,14 @@ export function EditProfileForm() {
     }
   }, [profile])
 
+  const getApiError = (err: unknown, fallback: string): string => {
+    if (axios.isAxiosError(err)) {
+      const detail = err.response?.data?.detail
+      if (detail) return detail
+    }
+    return fallback
+  }
+
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSaving(true)
@@ -45,8 +54,8 @@ export function EditProfileForm() {
       await profilesApi.createProfile(displayName, dateOfBirth)
       await fetchProfile()
       router.push('/profile')
-    } catch {
-      setSaveError(t('createErrorMessage'))
+    } catch (err) {
+      setSaveError(getApiError(err, t('createErrorMessage')))
     } finally {
       setIsSaving(false)
     }
@@ -60,8 +69,8 @@ export function EditProfileForm() {
       const interestList = interests.split(',').map((s) => s.trim()).filter(Boolean)
       await profilesApi.updateProfile(bio || null, interestList, preferredLanguage)
       router.push('/profile')
-    } catch {
-      setSaveError(t('updateErrorMessage'))
+    } catch (err) {
+      setSaveError(getApiError(err, t('updateErrorMessage')))
     } finally {
       setIsSaving(false)
     }

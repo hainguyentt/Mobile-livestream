@@ -3,6 +3,7 @@ using LivestreamApp.Profiles.Domain.Entities;
 using LivestreamApp.Profiles.Repositories;
 using LivestreamApp.Profiles.Services;
 using LivestreamApp.Shared.Exceptions;
+using LivestreamApp.Shared.Interfaces;
 using Moq;
 
 namespace LivestreamApp.Tests.Unit.Profiles;

@@ -234,6 +234,423 @@ namespace LivestreamApp.API.Migrations
                     b.ToTable("users", (string)null);
                 });
 
+            modelBuilder.Entity("LivestreamApp.DirectChat.Domain.Entities.Block", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("BlockedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("BlockedId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BlockerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BlockedId")
+                        .HasDatabaseName("idx_blocks_blocked");
+
+                    b.HasIndex("BlockerId")
+                        .HasDatabaseName("idx_blocks_blocker");
+
+                    b.HasIndex("BlockerId", "BlockedId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_blocks_blocker_blocked_unique");
+
+                    b.ToTable("blocks", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.DirectChat.Domain.Entities.Conversation", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("HostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("HostUnreadCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<bool>("IsHiddenByHost")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsHiddenByViewer")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime?>("LastMessageAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastMessagePreview")
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<Guid>("ViewerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ViewerUnreadCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostId")
+                        .HasDatabaseName("idx_conversations_host");
+
+                    b.HasIndex("ViewerId")
+                        .HasDatabaseName("idx_conversations_viewer");
+
+                    b.HasIndex("ViewerId", "HostId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_conversations_viewer_host_unique");
+
+                    b.ToTable("conversations", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.DirectChat.Domain.Entities.DirectMessage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<Guid>("ConversationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("EmojiCode")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<bool>("IsDeletedBySender")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("MessageType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("SenderId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id", "SentAt");
+
+                    b.HasIndex("ConversationId", "SentAt")
+                        .HasDatabaseName("idx_direct_messages_conversation_sent");
+
+                    b.ToTable("direct_messages", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.BillingTick", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("CallSessionId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CoinsCharged")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("IsSuccess")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("ProcessedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("TickNumber")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ViewerBalanceAfter")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ViewerBalanceBefore")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CallSessionId", "TickNumber")
+                        .IsUnique()
+                        .HasDatabaseName("idx_billing_ticks_session_tick_unique");
+
+                    b.ToTable("billing_ticks", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.CallSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AgoraChannelName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<Guid>("CallRequestId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CoinRatePerTick")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("EndedBy")
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<Guid>("HostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<int>("TotalCoinsCharged")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("TotalTicks")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<Guid>("ViewerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CallRequestId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_call_sessions_request_unique");
+
+                    b.ToTable("call_sessions", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.KickedViewer", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("KickedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("KickedByRole")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<Guid>("KickedByUserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Reason")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ViewerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId", "ViewerId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_kicked_viewers_room_viewer_unique");
+
+                    b.ToTable("kicked_viewers", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.LivestreamRoom", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AgoraChannelName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)");
+
+                    b.Property<string>("Category")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("EndedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("HostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("PeakViewerCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<DateTime?>("StartedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("TotalViewerCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.Property<int>("ViewerCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_livestream_rooms_host_live_unique")
+                        .HasFilter("status = 'Live'");
+
+                    b.HasIndex("Status")
+                        .HasDatabaseName("idx_livestream_rooms_status");
+
+                    b.ToTable("livestream_rooms", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.PrivateCallRequest", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("CoinRatePerTick")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("HostId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("RequestedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("RespondedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<Guid>("ViewerId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("HostId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_call_requests_host_pending_unique")
+                        .HasFilter("status = 'Pending'");
+
+                    b.HasIndex("ViewerId")
+                        .HasDatabaseName("idx_call_requests_viewer");
+
+                    b.ToTable("private_call_requests", (string)null);
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.ViewerSession", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<bool>("IsKicked")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime?>("LeftAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("RoomId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("ViewerId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("WatchDurationSeconds")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoomId")
+                        .HasDatabaseName("idx_viewer_sessions_room");
+
+                    b.HasIndex("ViewerId")
+                        .HasDatabaseName("idx_viewer_sessions_viewer");
+
+                    b.HasIndex("RoomId", "ViewerId")
+                        .IsUnique()
+                        .HasDatabaseName("idx_viewer_sessions_active_unique")
+                        .HasFilter("left_at IS NULL");
+
+                    b.ToTable("viewer_sessions", (string)null);
+                });
+
             modelBuilder.Entity("LivestreamApp.Profiles.Domain.Entities.HostProfile", b =>
                 {
                     b.Property<Guid>("Id")
@@ -326,6 +743,9 @@ namespace LivestreamApp.API.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
+                    b.Property<int>("CoinBalance")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -381,6 +801,42 @@ namespace LivestreamApp.API.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("LivestreamApp.DirectChat.Domain.Entities.DirectMessage", b =>
+                {
+                    b.HasOne("LivestreamApp.DirectChat.Domain.Entities.Conversation", null)
+                        .WithMany("Messages")
+                        .HasForeignKey("ConversationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.BillingTick", b =>
+                {
+                    b.HasOne("LivestreamApp.Livestream.Domain.Entities.CallSession", null)
+                        .WithMany("BillingTicks")
+                        .HasForeignKey("CallSessionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.KickedViewer", b =>
+                {
+                    b.HasOne("LivestreamApp.Livestream.Domain.Entities.LivestreamRoom", null)
+                        .WithMany("KickedViewers")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.ViewerSession", b =>
+                {
+                    b.HasOne("LivestreamApp.Livestream.Domain.Entities.LivestreamRoom", null)
+                        .WithMany("ViewerSessions")
+                        .HasForeignKey("RoomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LivestreamApp.Profiles.Domain.Entities.UserPhoto", b =>
                 {
                     b.HasOne("LivestreamApp.Profiles.Domain.Entities.UserProfile", null)
@@ -395,6 +851,23 @@ namespace LivestreamApp.API.Migrations
                     b.Navigation("ExternalLogins");
 
                     b.Navigation("RefreshTokens");
+                });
+
+            modelBuilder.Entity("LivestreamApp.DirectChat.Domain.Entities.Conversation", b =>
+                {
+                    b.Navigation("Messages");
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.CallSession", b =>
+                {
+                    b.Navigation("BillingTicks");
+                });
+
+            modelBuilder.Entity("LivestreamApp.Livestream.Domain.Entities.LivestreamRoom", b =>
+                {
+                    b.Navigation("KickedViewers");
+
+                    b.Navigation("ViewerSessions");
                 });
 
             modelBuilder.Entity("LivestreamApp.Profiles.Domain.Entities.UserProfile", b =>

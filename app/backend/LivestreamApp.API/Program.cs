@@ -27,6 +27,8 @@ builder.Services.AddStorageService(builder.Configuration);
 builder.Services.AddValidation();
 builder.Services.AddCorsPolicy(builder.Configuration);
 builder.Services.AddHealthChecks(builder.Configuration);
+builder.Services.AddSignalRServices(builder.Configuration);
+builder.Services.AddLivestreamServices();
 
 var app = builder.Build();
 
@@ -53,6 +55,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHealthChecks();
+
+// SignalR hubs — Unit 2: Livestream Engine
+app.MapHub<LivestreamApp.API.Hubs.LivestreamHub>("/hubs/livestream");
+app.MapHub<LivestreamApp.API.Hubs.ChatHub>("/hubs/chat");
 
 app.Run();
 
